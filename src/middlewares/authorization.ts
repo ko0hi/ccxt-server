@@ -1,8 +1,8 @@
-import {Request, Response, NextFunction} from 'express'
+import { NextFunction, Request, Response } from 'express'
 
 export interface ApiKeySecretRequest extends Request {
-    apiKey?: string
-    secret?: string
+  apiKey?: string
+  secret?: string
 }
 
 /**
@@ -15,24 +15,24 @@ export interface ApiKeySecretRequest extends Request {
  *
  */
 export function apiKeySecretMiddleware(req: ApiKeySecretRequest, res: Response, next: NextFunction) {
-    const authHeader = req.headers.authorization
+  const authHeader = req.headers.authorization
 
-    if (!authHeader) {
-        res.status(401).send('Missing Authorization header')
-        return
-    }
+  if (!authHeader) {
+    res.status(401).send('Missing Authorization header')
+    return
+  }
 
-    const [type, credentials] = authHeader.split(' ')
+  const [type, credentials] = authHeader.split(' ')
 
-    if (type !== 'Basic') {
-        res.status(401).send('Invalid Authorization type')
-        return
-    }
+  if (type !== 'Basic') {
+    res.status(401).send('Invalid Authorization type')
+    return
+  }
 
-    const [apiKey, secret] = Buffer.from(credentials, 'base64').toString('utf-8').split(':')
+  const [apiKey, secret] = Buffer.from(credentials, 'base64').toString('utf-8').split(':')
 
-    req.apiKey = apiKey
-    req.secret = secret
+  req.apiKey = apiKey
+  req.secret = secret
 
-    next()
+  next()
 }
