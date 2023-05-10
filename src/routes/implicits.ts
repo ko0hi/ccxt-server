@@ -20,11 +20,6 @@ const handleRequest = async (req: ImplicitApiRequest & ApiKeySecretRequest, res)
   const otherBodyParams = req.body
   const { apiKey, secret } = req
 
-  if (!exchangeId || !method) {
-    res.status(400).send('Missing required query parameters')
-    return
-  }
-
   Promise.resolve()
     .then(() => checkRequiredParameters({ exchangeId, method }))
     .then(() => initCcxtClientForRest(exchangeId, method, { apiKey, secret }))
