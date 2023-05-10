@@ -3,6 +3,8 @@ import app from './app'
 import { Server } from 'socket.io'
 import { handleSocketConnection } from './sockets'
 
+require('dotenv').config({ path: './.env' })
+
 const PORT = process.env.PORT || 3001
 
 const server = http.createServer(app)
