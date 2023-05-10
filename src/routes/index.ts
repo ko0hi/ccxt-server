@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import marketsRouter from './markets'
 import myTradesRouter from './myTrades'
 import positionsRouter from './positions'
 import createOrderRouter from './createOrder'
@@ -7,6 +8,7 @@ import implicitApiRouter from './implicits'
 
 const router = Router()
 
+router.use('/v1/markets', marketsRouter)
 router.use('/v1/createOrder', createOrderRouter)
 router.use('/v1/myTrades', myTradesRouter)
 router.use('/v1/positions', positionsRouter)
