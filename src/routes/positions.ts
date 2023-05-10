@@ -1,6 +1,6 @@
 import {Request, Router} from 'express';
 import {apiKeySecretMiddleware, ApiKeySecretRequest} from '../middlewares/authorization';
-import {checkRequiredParameters, executeCcxtMethod, initCcxtClientForRest} from './helper';
+import {checkRequiredParameters, executeCcxtMethod, initCcxtClientForRest} from "../utils/ccxt";
 
 const router = Router();
 

@@ -1,22 +1,62 @@
 import {ExchangeOptions} from "../types/ccxt";
 import ccxt, {Exchange} from "ccxt";
-import {CcxtServerError} from "../exceptions";
-export const initCcxtClient = (exchangeId: string, options: ExchangeOptions = {}): Exchange => {
-    const exchangeClass = ccxt[exchangeId]
+import {
+    CcxtRequestError,
+    CcxtServerError,
+    MissingRequiredParametersError,
+    UnsupportedExchangeError,
+    UnsupportedMethodError
+} from "../exceptions";
+import {Socket} from "socket.io";
 
-    if (!exchangeClass) {
-        throw new CcxtServerError(`Unsupported exchange: ${exchangeId}`);
-    }
-
-    return new exchangeClass(options)
-}
-
-export const initCcxtProClient = (exchangeId: string, options: ExchangeOptions = {}): Exchange => {
+export const initCcxtClientForRest = (exchangeId: string, method: string, options: ExchangeOptions = {}): Exchange => {
     const exchangeClass = ccxt.pro[exchangeId]
 
     if (!exchangeClass) {
-        throw new CcxtServerError(`Unsupported pro exchange: ${exchangeId}`);
+        throw new UnsupportedExchangeError(exchangeId)
     }
 
-    return new exchangeClass(options)
+    const exchange = new exchangeClass(options)
+
+    if (!exchange.has[method]) {
+        throw new UnsupportedMethodError(`${exchangeId}.${method}`)
+    }
+
+    return exchange
+}
+
+export const initCcxtClientForSocket = (exchangeId: string, method: string, options: ExchangeOptions = {}): Exchange => {
+    const exchangeClass = ccxt.pro[exchangeId]
+
+    if (!exchangeClass) {
+        throw new UnsupportedExchangeError(exchangeId)
+    }
+
+    const exchange = new exchangeClass(options)
+
+    if (!exchange.has[method]) {
+        throw new UnsupportedMethodError(`${exchangeId}.${method}`)
+    }
+
+    return exchange
+}
+
+export const executeCcxtMethod = async (exchange: Exchange, method: string, ...args: any): Promise<any> => {
+    try {
+        return await exchange[method](...args)
+    } catch (error) {
+        throw new CcxtRequestError(`${exchange.id}.${method} with ${args}: ${error}`)
+    }
+}
+
+export const checkRequiredParameters = (requiredParams: object): void => {
+    const missingParams = []
+    for (const [key, value] of Object.entries(requiredParams)) {
+        if (!value) {
+            missingParams.push(key)
+        }
+    }
+    if (missingParams.length > 0) {
+        throw new MissingRequiredParametersError(`${missingParams.join(', ')}`)
+    }
 }

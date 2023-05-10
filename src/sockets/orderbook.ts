@@ -1,7 +1,6 @@
 import {Socket} from 'socket.io';
 import {Exchange} from 'ccxt';
-import {initCcxtProClientForSocket} from "./helper";
-import {checkRequiredParameters} from "../routes/helper";
+import {checkRequiredParameters, initCcxtClientForSocket} from "../utils/ccxt";
 
 const watchOrderBookRealtime = async (socket: Socket, exchange: Exchange, symbol: string, limit: number) => {
     while (socket.connected) {
@@ -41,7 +40,7 @@ const handleOrderbookSocket = async (socket: Socket, payload: {
 
     Promise.resolve()
         .then(() => checkRequiredParameters({exchangeId, symbol}))
-        .then(() => initCcxtProClientForSocket(socket, "watchOrderBook", exchangeId))
+        .then(() => initCcxtClientForSocket(exchangeId, "watchOrderBook"))
         .then(async (exchange) => {
             try {
                 if (interval === 0) {
