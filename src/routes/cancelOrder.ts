@@ -5,23 +5,23 @@ import { CcxtServerRequest } from '../types/ccxt'
 
 const router = Router()
 
-interface PositionsRequest extends CcxtServerRequest {
-  query: {
-    exchangeId: string
-    symbol?: string[]
+interface OrdersRequest extends CcxtServerRequest {
+  body: {
+    id: string
+    symbol: string
   }
 }
 
-router.get('/', apiKeySecretMiddleware, async (req: PositionsRequest, res) => {
+router.post('/', apiKeySecretMiddleware, async (req: OrdersRequest, res) => {
   const exchangeId = req.exchangeId
-  const { symbol } = req.query
+  const { id, symbol } = req.body
   const { apiKey, secret } = req
-  const method = 'fetchPositions'
+  const method = 'cancelOrder'
 
   Promise.resolve()
-    .then(() => checkRequiredParameters({ exchangeId }))
+    .then(() => checkRequiredParameters({ exchangeId, id, symbol }))
     .then(() => initCcxtClientForRest(exchangeId, method, { apiKey, secret }))
-    .then(exchange => executeCcxtMethod(exchange, method, symbol))
+    .then(exchange => executeCcxtMethod(exchange, method, id, symbol))
     .then(result => res.status(200).json(result))
     .catch(error => res.status(400).send(error.toString()))
     .finally(() => res.end())

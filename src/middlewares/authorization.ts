@@ -1,13 +1,6 @@
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Response } from 'express'
 import { getApiKeys, hasApiKeys } from '../utils/apiKeys'
-
-export interface ApiKeySecretRequest extends Request {
-  apiKey?: string
-  secret?: string
-  query: {
-    exchangeId: string
-  }
-}
+import { CcxtServerRequest } from '../types/ccxt'
 
 /**
  *
@@ -18,7 +11,7 @@ export interface ApiKeySecretRequest extends Request {
  * });
  *
  */
-export function apiKeySecretMiddleware(req: ApiKeySecretRequest, res: Response, next: NextFunction) {
+export function apiKeySecretMiddleware(req: CcxtServerRequest, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization
 
   if (authHeader) {
@@ -35,7 +28,8 @@ export function apiKeySecretMiddleware(req: ApiKeySecretRequest, res: Response, 
     req.secret = secret
   } else {
     if (hasApiKeys()) {
-      const { exchangeId } = req.query
+      const exchangeId = req.exchangeId
+
       const apiKeys = getApiKeys()
       if (!apiKeys.hasOwnProperty(exchangeId)) {
         res

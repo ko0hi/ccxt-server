@@ -1,3 +1,5 @@
+import { Request } from 'express'
+
 export interface ExchangeOptions {
   enableRateLimit?: boolean
   rateLimit?: number
@@ -22,4 +24,10 @@ export interface ExchangeOptions {
   createOrderRateLimit?: number
   useWeb3ForFetchingOrders?: boolean
   enableLiveUpdates?: boolean
+}
+
+export interface CcxtServerRequest extends Request {
+  exchangeId: string
+  apiKey?: string
+  secret?: string
 }

@@ -1,12 +1,12 @@
-import { Request, Router } from 'express'
-import { apiKeySecretMiddleware, ApiKeySecretRequest } from '../middlewares/authorization'
+import { Router } from 'express'
+import { apiKeySecretMiddleware } from '../middlewares/authorization'
 import { checkRequiredParameters, executeCcxtMethod, initCcxtClientForRest } from '../utils/ccxt'
+import { CcxtServerRequest } from '../types/ccxt'
 
 const router = Router()
 
-interface ImplicitApiRequest extends Request {
+interface ImplicitApiRequest extends CcxtServerRequest {
   query: {
-    exchangeId: string
     method: string
     [key: string]: any
   }
@@ -15,15 +15,16 @@ interface ImplicitApiRequest extends Request {
   }
 }
 
-const handleRequest = async (req: ImplicitApiRequest & ApiKeySecretRequest, res) => {
-  const { exchangeId, method, ...otherQueryParams } = req.query
+const handleRequest = async (req: ImplicitApiRequest, res) => {
+  const exchangeId = req.exchangeId
+  const { method, ...otherQueryParams } = req.query
   const otherBodyParams = req.body
   const { apiKey, secret } = req
 
   Promise.resolve()
     .then(() => checkRequiredParameters({ exchangeId, method }))
     .then(() => initCcxtClientForRest(exchangeId, method, { apiKey, secret }))
-    .then(exchange => executeCcxtMethod(exchange, method, ...{ ...otherQueryParams, ...otherBodyParams }))
+    .then(exchange => executeCcxtMethod(exchange, method, { ...otherQueryParams, ...otherBodyParams }))
     .then(result => res.status(200).json(result))
     .catch(error => res.status(400).send(error.toString()))
     .finally(() => res.end())

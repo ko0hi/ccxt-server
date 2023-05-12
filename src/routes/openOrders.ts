@@ -5,18 +5,18 @@ import { CcxtServerRequest } from '../types/ccxt'
 
 const router = Router()
 
-interface PositionsRequest extends CcxtServerRequest {
+interface OrdersRequest extends CcxtServerRequest {
   query: {
-    exchangeId: string
-    symbol?: string[]
+    symbol?: string
   }
 }
 
-router.get('/', apiKeySecretMiddleware, async (req: PositionsRequest, res) => {
+router.get('/', apiKeySecretMiddleware, async (req: OrdersRequest, res) => {
   const exchangeId = req.exchangeId
+
   const { symbol } = req.query
   const { apiKey, secret } = req
-  const method = 'fetchPositions'
+  const method = 'fetchOpenOrders'
 
   Promise.resolve()
     .then(() => checkRequiredParameters({ exchangeId }))

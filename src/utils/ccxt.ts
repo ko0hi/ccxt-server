@@ -16,7 +16,7 @@ export const initCcxtClientForRest = (exchangeId: string, method: string, option
 
   const exchange = new exchangeClass(options)
 
-  if (!exchange.has[method]) {
+  if (!exchange.has[method] && !exchange.hasOwnProperty(method)) {
     throw new UnsupportedMethodError(`${exchangeId}.${method}`)
   }
 
@@ -36,7 +36,7 @@ export const initCcxtClientForSocket = (
 
   const exchange = new exchangeClass(options)
 
-  if (!exchange.has[method]) {
+  if (!exchange.has[method] && !exchange.hasOwnProperty(method)) {
     throw new UnsupportedMethodError(`${exchangeId}.${method}`)
   }
 

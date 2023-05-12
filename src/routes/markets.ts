@@ -1,17 +1,17 @@
-import { Request, Router } from 'express'
-import { ApiKeySecretRequest } from '../middlewares/authorization'
+import { Router } from 'express'
 import { checkRequiredParameters, executeCcxtMethod, initCcxtClientForRest } from '../utils/ccxt'
+import { CcxtServerRequest } from '../types/ccxt'
 
 const router = Router()
 
-interface MyTradesRequest extends Request {
+interface MyTradesRequest extends CcxtServerRequest {
   query: {
     exchangeId: string
   }
 }
 
-router.get('/', async (req: MyTradesRequest & ApiKeySecretRequest, res) => {
-  const { exchangeId } = req.query
+router.get('/', async (req: MyTradesRequest, res) => {
+  const exchangeId = req.exchangeId
   const method = 'fetchMarkets'
 
   Promise.resolve()

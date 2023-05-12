@@ -1,10 +1,11 @@
-import { Request, Response, Router } from 'express'
-import { apiKeySecretMiddleware, ApiKeySecretRequest } from '../middlewares/authorization'
+import { Response, Router } from 'express'
+import { apiKeySecretMiddleware } from '../middlewares/authorization'
 import { checkRequiredParameters, executeCcxtMethod, initCcxtClientForRest } from '../utils/ccxt'
+import { CcxtServerRequest } from '../types/ccxt'
 
 const router = Router()
 
-interface CreateOrderRequest extends Request {
+interface CreateOrderRequest extends CcxtServerRequest {
   body: {
     exchangeId: string
     symbol: string
@@ -16,8 +17,9 @@ interface CreateOrderRequest extends Request {
   }
 }
 
-router.post('/', apiKeySecretMiddleware, async (req: CreateOrderRequest & ApiKeySecretRequest, res: Response) => {
-  const { exchangeId, symbol, type, side, amount, price, ...otherParams } = req.body
+router.post('/', apiKeySecretMiddleware, async (req: CreateOrderRequest, res: Response) => {
+  const exchangeId = req.exchangeId
+  const { symbol, type, side, amount, price, ...otherParams } = req.body
   const { apiKey, secret } = req
 
   Promise.resolve()
