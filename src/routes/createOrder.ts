@@ -7,7 +7,6 @@ const router = Router()
 
 interface CreateOrderRequest extends CcxtServerRequest {
   body: {
-    exchangeId: string
     symbol: string
     type: string
     side: string
