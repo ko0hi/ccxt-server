@@ -32,7 +32,11 @@ const handleRequest = async (req: ImplicitApiRequest, res) => {
 
 router.get('/public', apiKeySecretMiddleware, handleRequest)
 router.post('/public', apiKeySecretMiddleware, handleRequest)
+router.put('/public', apiKeySecretMiddleware, handleRequest)
+router.delete('/public', apiKeySecretMiddleware, handleRequest)
 router.get('/private', apiKeySecretMiddleware, handleRequest)
 router.post('/private', apiKeySecretMiddleware, handleRequest)
+router.put('/private', apiKeySecretMiddleware, handleRequest)
+router.delete('/private', apiKeySecretMiddleware, handleRequest)
 
 export default router
