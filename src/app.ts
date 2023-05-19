@@ -1,6 +1,7 @@
 import express, { Application } from 'express'
 import cors from 'cors'
 import routes from './routes'
+import { logRequestMiddleware, logResponseMiddleware } from './middlewares/logging'
 
 const app: Application = express()
 
@@ -10,12 +11,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
 // API Routes
-app.use('/api', routes)
-
-// Error Handling
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error(err.stack)
-  res.status(500).send('Something went wrong')
-})
+app.use('/api', logRequestMiddleware, logResponseMiddleware, routes)
 
 export default app
