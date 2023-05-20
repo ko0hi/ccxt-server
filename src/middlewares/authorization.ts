@@ -35,7 +35,7 @@ export function apiKeySecretMiddleware(req: CcxtServerRequest, res: Response, ne
         res
           .status(401)
           .send(
-            `No authorization header, and also API key and secret for exchange ${exchangeId} in a given apis json file.`
+            `There is no authorization header provided, and the API key and secret for the ${exchangeId} exchange are also missing from the provided APIs JSON file.`
           )
         return
       }
@@ -43,7 +43,9 @@ export function apiKeySecretMiddleware(req: CcxtServerRequest, res: Response, ne
       req.apiKey = apiKey
       req.secret = secret
     } else {
-      res.status(401).send('Neither authorization header nor CCXT_SERVER_APIS environment variable')
+      res
+        .status(401)
+        .send('Authorization header is missing and the CCXT_SERVER_APIS environment variable is not present.e')
       return
     }
   }
