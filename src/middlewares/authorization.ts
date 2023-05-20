@@ -45,7 +45,7 @@ export function apiKeySecretMiddleware(req: CcxtServerRequest, res: Response, ne
     } else {
       res
         .status(401)
-        .send('Authorization header is missing and the CCXT_SERVER_APIS environment variable is not present.e')
+        .send('Authorization header is missing and the CCXT_SERVER_APIS environment variable is not present.')
       return
     }
   }
