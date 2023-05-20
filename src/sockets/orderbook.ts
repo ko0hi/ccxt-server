@@ -45,7 +45,7 @@ const handleOrderbookSocket = async (
 ) => {
   const { exchangeId, symbol } = payload
   const interval = payload.interval || 0
-  const limit = payload.limit || 10
+  const limit = payload.limit || 500
 
   Promise.resolve()
     .then(() => checkRequiredParameters({ exchangeId, symbol }))
