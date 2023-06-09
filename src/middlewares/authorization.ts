@@ -17,6 +17,7 @@ export function apiKeySecretMiddleware(req: CcxtServerRequest, res: Response, ne
   if (authHeader) {
     const [type, credentials] = authHeader.split(' ')
 
+    // TODO: ちゃんとした暗号化
     if (type !== 'Basic') {
       res.status(401).send('Invalid Authorization type')
       return
