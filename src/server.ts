@@ -5,7 +5,8 @@ import { handleSocketConnection } from './sockets'
 
 require('dotenv').config({ path: './.env' })
 
-const PORT = process.env.PORT || 3001
+const PORT = parseInt(process.env.PORT || '3001')
+const HOST = process.env.HOST || 'localhost'
 
 const server = http.createServer(app)
 
@@ -20,6 +21,4 @@ const io = new Server(server, {
 io.on('connection', handleSocketConnection)
 
 // サーバーの起動
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
-})
+server.listen(PORT, HOST, 1, () => console.log(`Server running at http://${HOST}:${PORT}`))
