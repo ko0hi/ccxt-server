@@ -9,7 +9,7 @@ export const hasApiKeys = () => API_KEYS !== null
 
 export const getApiKeys = () => {
   if (API_KEYS === null) {
-    throw new Error('No API keys')
+    throw new Error('No API keys are provided by a json config file.')
   }
   return API_KEYS
 }
