@@ -44,9 +44,11 @@ CCXT_SERVER_APIS=./apis.json
 
 ## Endpoints
 
-The endpoint convention is `http://localhost:3001/api/v1/{exchange}/{method}`. 
+The endpoint convention is `http://localhost:3001/api/{exchange}/{version}/{method}`. 
 
 `exchange` is the name of the exchange supported by ccxt. For example, `binance`, `bitfinex`, `bitmex`, `coinbasepro`, `huobipro`, `okex`, etc.
+
+`version` is `v1` for now.
 
 The following methods are currently supported.
 
@@ -56,7 +58,7 @@ The following methods are currently supported.
 `fetchMarkets` in ccxt.
 
 ```bash
-curl http://localhost:3001/api/v1/binance/markets
+curl http://localhost:3001/api/binance/v1/markets
 ```
 
 ### Private
@@ -65,7 +67,7 @@ curl http://localhost:3001/api/v1/binance/markets
 `fetchPositions` in ccxt.
 
 ```bash
-curl http://localhost:3001/api/v1/binance/positions?symbol=BTC/USDT
+curl http://localhost:3001/api/binance/v1/positions?symbol=BTC/USDT
 ```
 
 
@@ -73,21 +75,21 @@ curl http://localhost:3001/api/v1/binance/positions?symbol=BTC/USDT
 `fetchOrders` in ccxt.
     
 ```bash
-curl http://localhost:3001/api/v1/binance/orders?symbol=BTC/USDT
+curl http://localhost:3001/api/binance/v1/orders?symbol=BTC/USDT
 ```
 
 
 #### GET /myTrades
 `fetchMyTrades` in ccxt.
 ```bash
-curl http://localhost:3001/api/v1/binance/myTrades?symbol=BTC/USDT
+curl http://localhost:3001/api/binance/v1/myTrades?symbol=BTC/USDT
 ```
 
 
 #### POST /createOrder
 `createOrder` in ccxt.
 ```bash
-curl http://localhost:3001/api/v1/binance/createOrder \
+curl http://localhost:3001/api/binance/v1/createOrder \
   -X POST \
   -H "Content-Type: application/json" \
   -d '{"symbol": "BTC/USDT", "type": "limit", "side": "buy", "amount": 0.001, "price": 10000}'
@@ -97,7 +99,7 @@ curl http://localhost:3001/api/v1/binance/createOrder \
 #### POST /cancelOrder
 `cancelOrder` in ccxt.
 ```bash
-curl http://localhost:3001/api/v1/binance/cancelOrder \
+curl http://localhost:3001/api/binance/v1/cancelOrder \
   -X POST \
   -H "Content-Type: application/json" \
   -d '{"symbol": "BTC/USDT", "id": "123456789"}'
@@ -114,7 +116,7 @@ You can also use them with ccxt-server as well.
 #### (GET|POST|PUT|DELETE) /implicits/private
 
 ```bash
-curl http://localhost:3001/api/v1/binanceusdm/implicits/private?method=fapiPrivateGetAllOrders
+curl http://localhost:3001/api/binanceusdm/v1/implicits/private?method=fapiPrivateGetAllOrders
 ```
 
 ## WIP
