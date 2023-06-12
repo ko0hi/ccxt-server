@@ -2,9 +2,9 @@ FROM node:18
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json yarn.lock ./
 
-RUN yarn && yarn add -G nodemon ts-node typescript pm2 && node_modules/pm2/bin/pm2 install typescript
+RUN yarn && node_modules/pm2/bin/pm2 install typescript
 
 COPY src ./src
 COPY tsconfig.json .
