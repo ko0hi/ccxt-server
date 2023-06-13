@@ -61,6 +61,13 @@ The following methods are currently supported.
 curl http://localhost:3001/api/binance/v1/markets
 ```
 
+#### GET /tickers
+
+`fetchTicker` in ccxt.
+```bash
+curl http://localhost:3001/api/binance/v1/tickers?symbol=BTC/USDT
+```
+
 ### Private
 #### GET /positions
 
