@@ -8,6 +8,7 @@ import ordersRouter from './orders'
 import editOrderRouter from './editOrder'
 import implicitApiRouter from './implicits'
 import tickerRouter from './tickers'
+import orderbookRouter from './orderbooks'
 import passExchangeIdMiddleware from '../middlewares/exchangeId'
 import hasKeyExchanges from './hasKeyExchanges'
 
@@ -22,6 +23,7 @@ router.use('/:exchangeId/v1/positions', passExchangeIdMiddleware, positionsRoute
 router.use('/:exchangeId/v1/orders', passExchangeIdMiddleware, ordersRouter)
 router.use('/:exchangeId/v1/implicits', passExchangeIdMiddleware, implicitApiRouter)
 router.use('/:exchangeId/v1/tickers', passExchangeIdMiddleware, tickerRouter)
+router.use('/:exchangeId/v1/orderbooks', passExchangeIdMiddleware, orderbookRouter)
 router.use('/v1/hasKeyExchanges', hasKeyExchanges)
 
 export default router

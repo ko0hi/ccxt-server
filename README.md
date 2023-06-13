@@ -68,6 +68,15 @@ curl http://localhost:3001/api/binance/v1/markets
 curl http://localhost:3001/api/binance/v1/tickers?symbol=BTC/USDT
 ```
 
+
+#### GET /orderbooks
+
+`fetchOrderbook` in ccxt.
+```bash
+curl http://localhost:3001/api/binance/v1/orderbooks?symbol=BTC/USDT
+```
+      
+
 ### Private
 #### GET /positions
 

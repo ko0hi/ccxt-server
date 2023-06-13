@@ -4,17 +4,17 @@ import { CcxtServerRequest } from '../types/ccxt'
 
 const router = Router()
 
-interface TickersRequest extends CcxtServerRequest {
+interface OrderbooksRequest extends CcxtServerRequest {
   query: {
     symbol?: string
   }
 }
 
-router.get('/', async (req: TickersRequest, res) => {
+router.get('/', async (req: OrderbooksRequest, res) => {
   const exchangeId = req.exchangeId
 
   const { symbol } = req.query
-  const method = 'fetchTicker'
+  const method = 'fetchOrderBook'
 
   Promise.resolve()
     .then(() => checkRequiredParameters({ exchangeId }))
